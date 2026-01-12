@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Garantías</title>
+
+  <!-- Librería para tabla con búsqueda -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    table {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Reportes - Google Sheets</h2>
+
+<!-- Aquí se crearán los botones -->
+<div id="tabs"></div>
+
+<br>
+
+<!-- Aquí se cargará la tabla -->
+<table id="dataTable"></table>
+
+<!-- Nuestro JS -->
+<script src="script.js"></script>
+
+</body>
+</html>
