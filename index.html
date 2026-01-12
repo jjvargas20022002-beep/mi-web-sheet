@@ -12,14 +12,66 @@
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
+      background-color: #121212;   /* fondo negro */
+      color: #ffffff;              /* texto blanco */
     }
+
+    h2 {
+      color: #ffffff;
+    }
+
     button {
       margin: 5px;
       padding: 8px 12px;
       cursor: pointer;
+      background-color: #1f1f1f;
+      color: #ffffff;
+      border: 1px solid #444;
+      border-radius: 4px;
     }
+
+    button:hover {
+      background-color: #333333;
+    }
+
     table {
       width: 100%;
+      border-collapse: collapse;
+      color: #ffffff;
+    }
+
+    thead {
+      background-color: #1f1f1f;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #1a1a1a;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: #141414;
+    }
+
+    th, td {
+      padding: 8px;
+      border: 1px solid #333;
+    }
+
+    /* Simple-DataTables ajustes */
+    .dataTable-wrapper {
+      color: #ffffff;
+    }
+
+    .dataTable-input {
+      background-color: #1f1f1f;
+      color: #ffffff;
+      border: 1px solid #444;
+    }
+
+    .dataTable-selector {
+      background-color: #1f1f1f;
+      color: #ffffff;
+      border: 1px solid #444;
     }
   </style>
 </head>
