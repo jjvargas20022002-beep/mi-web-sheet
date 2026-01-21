@@ -18,12 +18,11 @@ const BRANCHES = {
 };
 
 // =====================
-// VARIABLES GLOBALES
+// VARIABLES
 // =====================
 let headers = [];
 let allRows = [];
 let dataTable = null;
-let tableInitialized = false;
 
 const tabsDiv = document.getElementById("tabs");
 const branchSelect = document.getElementById("branchFilter");
@@ -41,7 +40,9 @@ TABS.forEach(tab => {
 // =====================
 // EVENTO FILTRO
 // =====================
-branchSelect.addEventListener("change", renderTable);
+branchSelect.addEventListener("change", () => {
+  buildTable();   // ← reconstrucción total
+});
 
 // =====================
 // CARGAR SHEET
@@ -64,13 +65,7 @@ async function loadSheet(sheetName) {
   loadBranches(sheetName);
   branchSelect.value = "ALL";
 
-  if (dataTable) {
-    dataTable.destroy();
-    dataTable = null;
-    tableInitialized = false;
-  }
-
-  renderTable();
+  buildTable();
 }
 
 // =====================
@@ -91,12 +86,19 @@ function loadBranches(tab) {
 }
 
 // =====================
-// RENDER TABLA
+// CONSTRUIR TABLA (CLAVE)
 // =====================
-function renderTable() {
+function buildTable() {
   const table = document.getElementById("dataTable");
   const selectedBranch = branchSelect.value;
 
+  // 🔴 DESTRUIR SI EXISTE
+  if (dataTable) {
+    dataTable.destroy();
+    dataTable = null;
+  }
+
+  // 🔵 RECONSTRUIR HTML
   let html = "<thead><tr>";
   headers.forEach(h => html += `<th>${h}</th>`);
   html += "</tr></thead><tbody>";
@@ -114,8 +116,6 @@ function renderTable() {
   html += "</tbody>";
   table.innerHTML = html;
 
-  if (!tableInitialized) {
-    dataTable = new simpleDatatables.DataTable(table);
-    tableInitialized = true;
-  }
+  // 🟢 CREAR NUEVA INSTANCIA
+  dataTable = new simpleDatatables.DataTable(table);
 }
