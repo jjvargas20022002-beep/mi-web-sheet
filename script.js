@@ -10,13 +10,13 @@ const TABS = [
 ];
 
 const BRANCHES = {
-  LIMA: ["ALL","LI1","LI2","LI3","LI4","LI7"],
-  PROVINCIA: ["ALL","ARE","CUS","CAJ","HUN","JUN","LAL","PIU","SAN"]
+  LIMA: ["ALL", "LI1", "LI2", "LI3", "LI4", "LI7"],
+  PROVINCIA: ["ALL", "ARE", "CUS", "CAJ", "HUN", "JUN", "LAL", "PIU", "SAN"]
 };
 
 let dataTable;
+let headers = [];
 let allRows = [];
-let currentTab = "";
 
 const tabsDiv = document.getElementById("tabs");
 const branchSelect = document.getElementById("branchFilter");
@@ -31,27 +31,31 @@ TABS.forEach(tab => {
 branchSelect.onchange = () => renderTable();
 
 async function loadSheet(sheetName) {
-  currentTab = sheetName;
   const encodedName = encodeURIComponent(sheetName);
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodedName}?key=${API_KEY}`;
 
   const response = await fetch(url);
   const data = await response.json();
 
-  if (!data.values) {
+  if (!data.values || data.values.length < 2) {
     alert("Esta hoja no tiene datos");
     return;
   }
 
-  allRows = data.values;
+  headers = data.values[0];
+  allRows = data.values.slice(1);
+
   loadBranches(sheetName);
+  branchSelect.value = "ALL";   // 🔹 reset SIEMPRE
   renderTable();
 }
 
 function loadBranches(tab) {
   branchSelect.innerHTML = "";
 
-  const isLima = tab.includes("LIMA");
+  const isLima =
+    tab.includes("LIMA") || tab.includes("ONLINE") || tab.includes("CANCELADOS");
+
   const list = isLima ? BRANCHES.LIMA : BRANCHES.PROVINCIA;
 
   list.forEach(branch => {
@@ -67,14 +71,14 @@ function renderTable() {
   const selectedBranch = branchSelect.value;
 
   let html = "<thead><tr>";
-  allRows[0].forEach(col => html += `<th>${col}</th>`);
+  headers.forEach(h => html += `<th>${h}</th>`);
   html += "</tr></thead><tbody>";
 
-  allRows.slice(1).forEach(row => {
+  allRows.forEach(row => {
     if (selectedBranch !== "ALL" && row[0] !== selectedBranch) return;
 
     html += "<tr>";
-    allRows[0].forEach((_, i) => {
+    headers.forEach((_, i) => {
       html += `<td>${row[i] || ""}</td>`;
     });
     html += "</tr>";
