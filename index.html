@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Gestión de Garantías</title>
 
-  <!-- Librería para tabla con búsqueda -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css">
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest"></script>
 
@@ -12,32 +11,41 @@
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
-      background-color: #121212;   /* fondo negro */
-      color: #ffffff;              /* texto blanco */
-    }
-
-    h2 {
+      background-color: #121212;
       color: #ffffff;
     }
 
     button {
       margin: 5px;
       padding: 8px 12px;
-      cursor: pointer;
       background-color: #1f1f1f;
       color: #ffffff;
       border: 1px solid #444;
       border-radius: 4px;
+      cursor: pointer;
     }
 
     button:hover {
-      background-color: #333333;
+      background-color: #333;
+    }
+
+    select {
+      background-color: #1f1f1f;
+      color: #ffffff;
+      border: 1px solid #444;
+      padding: 6px;
+      margin-left: 10px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      color: #ffffff;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
     }
 
     thead {
@@ -51,44 +59,22 @@
     tbody tr:nth-child(odd) {
       background-color: #141414;
     }
-
-    th, td {
-      padding: 8px;
-      border: 1px solid #333;
-    }
-
-    /* Simple-DataTables ajustes */
-    .dataTable-wrapper {
-      color: #ffffff;
-    }
-
-    .dataTable-input {
-      background-color: #1f1f1f;
-      color: #ffffff;
-      border: 1px solid #444;
-    }
-
-    .dataTable-selector {
-      background-color: #1f1f1f;
-      color: #ffffff;
-      border: 1px solid #444;
-    }
   </style>
 </head>
+
 <body>
 
 <h2>Reportes - Google Sheets</h2>
 
-<!-- Aquí se crearán los botones -->
 <div id="tabs"></div>
 
-<br>
+<div style="margin-top:10px;">
+  Branch:
+  <select id="branchFilter"></select>
+</div>
 
-<!-- Aquí se cargará la tabla -->
 <table id="dataTable"></table>
 
-<!-- Nuestro JS -->
 <script src="script.js"></script>
-
 </body>
 </html>
