@@ -1,3 +1,6 @@
+// =====================
+// CONFIGURACIÓN
+// =====================
 const SHEET_ID = "1eaNxCpm8JF1JcZS3_ldwMRINGYFaW6RsQQWybvRi_P8";
 const API_KEY = "AIzaSyBbU7VsAR3M3VADQ3aFxBVto86M1k6EMuY";
 
@@ -10,17 +13,24 @@ const TABS = [
 ];
 
 const BRANCHES = {
-  LIMA: ["ALL", "LI1", "LI2", "LI3", "LI4", "LI7"],
-  PROVINCIA: ["ALL", "ARE", "CUS", "CAJ", "HUN", "JUN", "LAL", "PIU", "SAN"]
+  LIMA: ["ALL","LI1","LI2","LI3","LI4","LI7"],
+  PROVINCIA: ["ALL","ARE","CUS","CAJ","HUN","JUN","LAL","PIU","SAN"]
 };
 
-let dataTable;
+// =====================
+// VARIABLES GLOBALES
+// =====================
 let headers = [];
 let allRows = [];
+let dataTable = null;
+let tableInitialized = false;
 
 const tabsDiv = document.getElementById("tabs");
 const branchSelect = document.getElementById("branchFilter");
 
+// =====================
+// BOTONES DE TABS
+// =====================
 TABS.forEach(tab => {
   const btn = document.createElement("button");
   btn.textContent = tab;
@@ -28,8 +38,14 @@ TABS.forEach(tab => {
   tabsDiv.appendChild(btn);
 });
 
-branchSelect.onchange = () => renderTable();
+// =====================
+// EVENTO FILTRO
+// =====================
+branchSelect.addEventListener("change", renderTable);
 
+// =====================
+// CARGAR SHEET
+// =====================
 async function loadSheet(sheetName) {
   const encodedName = encodeURIComponent(sheetName);
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodedName}?key=${API_KEY}`;
@@ -46,16 +62,24 @@ async function loadSheet(sheetName) {
   allRows = data.values.slice(1);
 
   loadBranches(sheetName);
-  branchSelect.value = "ALL";   // 🔹 reset SIEMPRE
+  branchSelect.value = "ALL";
+
+  if (dataTable) {
+    dataTable.destroy();
+    dataTable = null;
+    tableInitialized = false;
+  }
+
   renderTable();
 }
 
+// =====================
+// CARGAR BRANCHES
+// =====================
 function loadBranches(tab) {
   branchSelect.innerHTML = "";
 
-  const isLima =
-    tab.includes("LIMA") || tab.includes("ONLINE") || tab.includes("CANCELADOS");
-
+  const isLima = tab.includes("LIMA");
   const list = isLima ? BRANCHES.LIMA : BRANCHES.PROVINCIA;
 
   list.forEach(branch => {
@@ -66,6 +90,9 @@ function loadBranches(tab) {
   });
 }
 
+// =====================
+// RENDER TABLA
+// =====================
 function renderTable() {
   const table = document.getElementById("dataTable");
   const selectedBranch = branchSelect.value;
@@ -87,6 +114,8 @@ function renderTable() {
   html += "</tbody>";
   table.innerHTML = html;
 
-  if (dataTable) dataTable.destroy();
-  dataTable = new simpleDatatables.DataTable(table);
+  if (!tableInitialized) {
+    dataTable = new simpleDatatables.DataTable(table);
+    tableInitialized = true;
+  }
 }
