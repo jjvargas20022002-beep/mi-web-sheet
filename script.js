@@ -1,13 +1,13 @@
 // =====================
 // DATOS DE TU SHEET
 // =====================
-const SHEET_ID = "1EZTXRB06qm68Xrs6DGVuK5KEyd4Zez1t_ONu4e7ihfU";
+const SHEET_ID = "1eaNxCpm8JF1JcZS3_ldwMRINGYFaW6RsQQWybvRi_P8";
 const API_KEY = "AIzaSyBbU7VsAR3M3VADQ3aFxBVto86M1k6EMuY";
 
 // TABS (pestañas)
 const TABS = [
   "GARANTIAS LIMA",
-  "CERRAR LIMA",
+  "ONLINE LIMA",
   "GARANTIAS PROVINCIA",
   "FUERA DE GARANTÍA PROVINCIA",
   "CANCELADOS"
